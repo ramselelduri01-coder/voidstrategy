@@ -4,6 +4,7 @@ import { articles, categories, site } from "../src/content.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
+const newsletterWebhookUrl = "https://rancellg11.app.n8n.cloud/webhook/voidstrategy-newsletter";
 
 function cleanDist() {
   fs.mkdirSync(path.join(dist, "assets"), { recursive: true });
@@ -44,6 +45,52 @@ function urlFor(pathname) {
   return `${site.url}${pathname}`;
 }
 
+function newsletterScript() {
+  return `<script>
+  (() => {
+    const webhookUrl = "${newsletterWebhookUrl}";
+    document.querySelectorAll(".newsletter-form").forEach((form) => {
+      const status = form.querySelector("[data-newsletter-status]");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const emailInput = form.querySelector('input[name="email"]');
+        const email = String(emailInput?.value || "").trim();
+
+        if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+          if (status) status.textContent = "Escribe un email válido.";
+          return;
+        }
+
+        const button = form.querySelector('button[type="submit"]');
+        if (button) button.disabled = true;
+        if (status) status.textContent = "Registrando...";
+
+        try {
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email,
+              source: "voidstrategy",
+              page: window.location.href,
+              created_at: new Date().toISOString()
+            })
+          });
+
+          if (!response.ok) throw new Error("Webhook error");
+          form.reset();
+          if (status) status.textContent = "Te uniste al reporte estratégico.";
+        } catch (error) {
+          if (status) status.textContent = "No se pudo registrar. Inténtalo otra vez.";
+        } finally {
+          if (button) button.disabled = false;
+        }
+      });
+    });
+  })();
+</script>`;
+}
+
 function layout({ title, description, pathname, body }) {
   const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
   return `<!doctype html>
@@ -69,6 +116,7 @@ function layout({ title, description, pathname, body }) {
   ${header()}
   ${body}
   ${footer()}
+  ${newsletterScript()}
 </body>
 </html>`;
 }
@@ -104,7 +152,7 @@ function footer() {
     </div>
     <div><h2>Secciones</h2>${categories.map((category) => `<a href="/categoria/${category.slug}/">${category.label}</a>`).join("")}</div>
     <div><h2>Recursos</h2><a href="/newsletter/">Newsletter</a><a href="/acerca-de/">Acerca de</a><a href="/contacto/">Contacto</a></div>
-    <div><h2>Redes</h2><a href="https://x.com" rel="noreferrer" target="_blank">X</a><a href="https://instagram.com" rel="noreferrer" target="_blank">Instagram</a><a href="https://youtube.com" rel="noreferrer" target="_blank">YouTube</a></div>
+    <div><h2>Redes</h2><a href="https://x.com/voidstrategyai" rel="noreferrer" target="_blank">X</a><a href="https://instagram.com/voidstrategyai" rel="noreferrer" target="_blank">Instagram</a><a href="https://youtube.com/@voidstrategyai" rel="noreferrer" target="_blank">YouTube</a></div>
   </div>
   <div class="footer-bottom">Copyright 2026 VOIDSTRATEGY. Todos los derechos reservados.</div>
 </footer>`;
@@ -126,7 +174,7 @@ function articleCard(article, variant = "compact") {
 function newsletter() {
   return `<section class="newsletter-panel" id="newsletter">
   <div><p class="eyebrow">Reporte estratégico</p><h2>Recibe reportes estratégicos antes que todos.</h2><p>Análisis geopolítico, defensa, economía y tecnología para entender el tablero antes del próximo movimiento.</p></div>
-  <form class="newsletter-form"><input name="email" type="email" placeholder="Tu email" aria-label="Email"><button type="submit">Unirme al reporte</button><small>Sin ruido. Sin spam. Solo inteligencia editorial.</small></form>
+  <form class="newsletter-form"><input name="email" type="email" placeholder="Tu email" aria-label="Email" required><button type="submit">Unirme al reporte</button><small data-newsletter-status>Sin ruido. Sin spam. Solo inteligencia editorial.</small></form>
 </section>`;
 }
 
