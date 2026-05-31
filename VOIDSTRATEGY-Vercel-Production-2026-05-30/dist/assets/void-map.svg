@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Mapa nocturno estrategico</title>
+  <desc id="desc">Textura oscura con mapa, lineas de inteligencia y coordenadas.</desc>
+  <defs>
+    <radialGradient id="glow" cx="62%" cy="42%" r="54%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".18"/>
+      <stop offset=".48" stop-color="#6f7478" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="#020202"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g opacity=".18" fill="#d8d8d8" filter="url(#blur)">
+    <path d="M287 351l54-35 75 11 45 39 76 11 48 45-29 42-92-9-31 35-89-11-68-42z"/>
+    <path d="M590 313l82-35 88 13 55 41-20 51-116 15-85-26z"/>
+    <path d="M817 310l105-27 138 31 62 53-35 47-137-5-106 38-78-29 25-61z"/>
+    <path d="M1074 423l80-10 92 33 54 69-27 67-106-1-75-48-49-63z"/>
+    <path d="M732 482l84 16 48 58-8 86-69 52-70-41-35-79z"/>
+    <path d="M448 530l93 10 45 62-33 74-104 20-64-61 10-68z"/>
+    <path d="M1042 650l86 20 41 71-28 72-73-7-42-52z"/>
+  </g>
+  <g opacity=".22" stroke="#f2f0eb" stroke-width="1" fill="none">
+    <circle cx="900" cy="460" r="318"/>
+    <circle cx="900" cy="460" r="210"/>
+    <path d="M900 88v744M528 460h744M635 195l530 530M1165 195L635 725"/>
+  </g>
+  <g opacity=".5" stroke="#b71118" stroke-width="2" fill="none">
+    <path d="M1092 384h42v42"/>
+    <path d="M530 616h-42v-42"/>
+    <path d="M1198 591h56"/>
+  </g>
+  <g fill="#fff" opacity=".42">
+    <circle cx="1030" cy="366" r="2"/>
+    <circle cx="1090" cy="390" r="1.8"/>
+    <circle cx="694" cy="382" r="1.7"/>
+    <circle cx="613" cy="452" r="1.6"/>
+    <circle cx="1126" cy="512" r="1.7"/>
+    <circle cx="1210" cy="604" r="1.8"/>
+    <circle cx="776" cy="575" r="1.6"/>
+    <circle cx="510" cy="604" r="1.7"/>
+  </g>
+  <g fill="#b71118" opacity=".82">
+    <circle cx="1134" cy="426" r="3"/>
+    <circle cx="488" cy="574" r="3"/>
+    <circle cx="1254" cy="591" r="3"/>
+  </g>
+</svg>

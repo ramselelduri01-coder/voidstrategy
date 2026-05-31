@@ -1,0 +1,14 @@
+{
+  "name": "voidstrategy-vercel-static",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.mjs --watch",
+    "build": "node scripts/build.mjs",
+    "lint": "node scripts/lint.mjs"
+  },
+  "engines": {
+    "node": ">=20.11.0"
+  }
+}
